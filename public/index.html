@@ -1,0 +1,302 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Pokemon Team Builder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+</head>
+
+<body data-page='index'>
+    <h1>
+        Pokemon Team Builder
+    </h1>
+
+    <hr />
+
+    <div class="container">
+
+        <div class='row mb-3'>
+            <div class='col-md-2'>
+                <label>Pokemon Name</label>
+            </div>
+            <div class='col-md-10'>
+                <input id='name' type='text' placeholder='Enter Pokemon name' />
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-2'>
+                <label>Pokemon Type</label>
+            </div>
+            <div class='col-md-10'>
+                <select id='type'>
+                    <option value=''></option>
+                    <option value='Normal'>Normal</option>
+                    <option value='Fire'>Fire</option>
+                    <option value='Water'>Water</option>
+                    <option value='Electric'>Electric</option>
+                    <option value='Grass'>Grass</option>
+                    <option value='Ice'>Ice</option>
+                    <option value='Fighting'>Fighting</option>
+                    <option value='Poison'>Poison</option>
+                    <option value='Ground'>Ground</option>
+                    <option value='Flying'>Flying</option>
+                    <option value='Psychic'>Psychic</option>
+                    <option value='Bug'>Bug</option>
+                    <option value='Rock'>Rock</option>
+                    <option value='Ghost'>Ghost</option>
+                    <option value='Dragon'>Dragon</option>
+                    <option value='Dark'>Dark</option>
+                    <option value='Steel'>Steel</option>
+                    <option value='Fairy'>Fairy</option>
+                </select>
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-2'>
+                <label>Ability</label>
+            </div>
+            <div class='col-md-10'>
+                <textarea id='ability' placeholder='Enter ability'></textarea>
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-2'>
+                <label>Highest Stat</label>
+            </div>
+            <div class='col-md-10'>
+                <select id='highestStat'>
+                    <option value=''></option>
+                    <option value='HP'>HP</option>
+                    <option value='Attack'>Attack</option>
+                    <option value='Defense'>Defense</option>
+                    <option value='Sp. Atk'>Sp. Atk</option>
+                    <option value='Sp. Def'>Sp. Def</option>
+                    <option value='Speed'>Speed</option>
+                </select>
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-2'>
+                <label>Sort By?</label>
+            </div>
+            <div class='col-md-10'>
+                <select id='sort'>
+                    <option value=''></option>
+                    <option value='DEXASC'>PokeDex Number Ascending</option>
+                    <option value='DEXDESC'>PokeDex Number Descending</option>
+                    <option value='NAMEASC'>Name Ascending</option>
+                    <option value='NAMEDESC'>Name Descending</option>
+                    <option value='BSTASC'>Base Stat Total Ascending</option>
+                    <option value='BSTDESC'>Base Stat Total Descending</option>
+                </select>
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-12'>
+                <input type='checkbox' id='fully_evolved' /><label for='fully_evolved'>Fully Evolved Only</label>
+            </div>
+        </div>
+
+
+        <div class='row mb-3'>
+            <div class='col-md-12'>
+                <input type='checkbox' id='limit' /> <label for='limit'>Limit Results</label>
+            </div>
+            <div class='col-md-12'>
+                <input id='limitValue' type='number' placeholder='Max Pokemon' disabled />
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-12'>
+                <button id='resetForm'>Reset Form</button>
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-12'>
+                <button id='searchPokemon'>Search for Pokemon</button>
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-12'>
+                <button type='button' id='goToInsertPage'>Go to Insert Page</button>
+            </div>
+        </div>
+
+        <div class='row mb-3'>
+            <div class='col-md-12'>
+                <button type='button' id='goToEditPage'>Go to Edit Page</button>
+            </div>
+        </div>
+
+        <hr />
+
+        <div id='results' class='overflow'>
+            Pokemon go here.
+        </div>
+
+        <script>
+            const isEmpty = (obj) => Object.keys(obj).length === 0;
+            const formatCell = (value) => (value === null || value === undefined) ? '' : value;
+
+            const limitCheckbox = document.getElementById('limit');
+            const limitValueInput = document.getElementById('limitValue');
+
+            limitCheckbox.addEventListener('change', () => {
+                limitValueInput.disabled = !limitCheckbox.checked;
+                if (limitValueInput.disabled) {
+                    limitValueInput.value = '';
+                }
+            });
+
+            document.getElementById('resetForm').addEventListener('click', (event) => {
+                event.preventDefault();
+
+                // Clear text inputs
+                document.getElementById('name').value = '';
+                document.getElementById('ability').value = '';
+
+                // Reset select dropdowns
+                document.getElementById('type').value = '';
+                document.getElementById('highestStat').value = '';
+                document.getElementById('sort').value = '';
+
+                // Uncheck checkboxes
+                document.getElementById('fully_evolved').checked = false;
+                document.getElementById('limit').checked = false;
+
+                // Clear limit value and disable it
+                document.getElementById('limitValue').value = '';
+                document.getElementById('limitValue').disabled = true;
+
+                // Clear results
+                document.getElementById('results').innerHTML = 'Pokemon go here.';
+            });
+
+            document.getElementById('searchPokemon').addEventListener('click', (event) => {
+                event.preventDefault();
+
+                const getParameters = {};
+
+                if (document.getElementById('name').value.length !== 0) {
+                    getParameters.name = document.getElementById('name').value;
+                }
+
+                if (document.getElementById('type').value.length !== 0) {
+                    getParameters.type = document.getElementById('type').value;
+                }
+
+                if (document.getElementById('ability').value.length !== 0) {
+                    getParameters.ability = document.getElementById('ability').value;
+                }
+
+                if (document.getElementById('highestStat').value.length !== 0) {
+                    getParameters.highestStat = document.getElementById('highestStat').value;
+                }
+
+                if (document.getElementById('sort').value.length !== 0) {
+                    getParameters.sort = document.getElementById('sort').value;
+                }
+
+                if (document.getElementById('limit').checked && document.getElementById('limitValue').value.length !== 0) {
+                    getParameters.limit = document.getElementById('limitValue').value;
+                }
+
+                if (document.getElementById('fully_evolved').checked) {
+                    getParameters.fully_evolved = true;
+                }
+
+                //Settings for FETCH API request
+                let fetchSettings = {
+                    method: 'GET'
+                };
+
+                //Send FETCH API request
+                fetch("/pokemon" + (!isEmpty(getParameters) ? '?' + new URLSearchParams(getParameters) : ''), fetchSettings).then((response) => {
+                    return new Promise((resolve) => response.json()
+                        .then((json) => resolve({
+                            status: response.status,
+                            json,
+                        })
+                        ));
+                })
+                    //Logic to display errors on form 
+                    .then(({ status, json }) => {
+                        if (status === 200) {
+                            let displayTable = '<table>' +
+                                '<thead>' +
+                                '<tr>' +
+                                '<th>ID</th>' +
+                                '<th>Species Name</th>' +
+                                '<th>Form</th>' +
+                                '<th>Primary Type</th>' +
+                                '<th>Secondary Type</th>' +
+                                '<th>Ability 1</th>' +
+                                '<th>Ability 2</th>' +
+                                '<th>Hidden Ability</th>' +
+                                '<th>HP</th>' +
+                                '<th>Attack</th>' +
+                                '<th>Defense</th>' +
+                                '<th>Sp. Atk</th>' +
+                                '<th>Sp. Def</th>' +
+                                '<th>Speed</th>' +
+                                '<th>Base Stat Total</th>' +
+                                '</tr>' +
+                                '</thead>' +
+                                '<tbody>';
+                            if (typeof json.data !== 'undefined' && json.data.length > 0) {
+                                for (const row of json.data) {
+                                    displayTable += '<tr>' +
+                                        '<td>' + formatCell(row.id) + '</td>' +
+                                        '<td>' + formatCell(row.species_name) + '</td>' +
+                                        '<td>' + formatCell(row.form) + '</td>' +
+                                        '<td>' + formatCell(row.primary_type) + '</td>' +
+                                        '<td>' + formatCell(row.secondary_type) + '</td>' +
+                                        '<td>' + formatCell(row.ability_one) + '</td>' +
+                                        '<td>' + formatCell(row.ability_two) + '</td>' +
+                                        '<td>' + formatCell(row.ability_hidden) + '</td>' +
+                                        '<td>' + formatCell(row.health) + '</td>' +
+                                        '<td>' + formatCell(row.attack) + '</td>' +
+                                        '<td>' + formatCell(row.defense) + '</td>' +
+                                        '<td>' + formatCell(row.sp_atk) + '</td>' +
+                                        '<td>' + formatCell(row.sp_def) + '</td>' +
+                                        '<td>' + formatCell(row.speed) + '</td>' +
+                                        '<td>' + formatCell(row.base_stat_total) + '</td>' +
+                                        '</tr>';
+                                }
+                            } else {
+                                displayTable += '<tr><td colspan="15">No Pokemon found.</td></tr>';
+                            }
+                            displayTable += '</tbody></table>';
+                            document.getElementById('results').innerHTML = displayTable;
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            });
+
+            document.getElementById('goToEditPage').addEventListener('click', () => {
+                window.location.href = 'edit.html';
+            });
+
+            document.getElementById('goToInsertPage').addEventListener('click', () => {
+                window.location.href = 'insert.html';
+            });
+        </script>
+</body>
+
+</html>

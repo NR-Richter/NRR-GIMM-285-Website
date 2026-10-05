@@ -1,0 +1,452 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Pokemon Team Builder</title>
+    <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css' rel='stylesheet'
+        integrity='sha384-T3c6CoIiL9aNneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwyk2CPM2HN' crossorigin='anonymous'>
+    <link href='style.css' rel='stylesheet'>
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'
+        integrity='sha384-C6RzsynW7K4MNeT87bh95OGNyZPhcTNJXn1NW7RuBCsyN/o0jlpcV8Qyq46cDfL'
+        crossorigin='anonymous'></script>
+</head>
+
+<body class='bg-light' data-page='edit'>
+    <div class='container py-4 py-md-5'>
+        <div class='row justify-content-center'>
+            <div class='col-12 col-xl-10'>
+                <div class='card shadow-sm border-0'>
+                    <div class='card-body p-4 p-md-5'>
+                        <div class='d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 mb-4'>
+                            <div>
+                                <h1 class='h3 mb-1'>Edit a Pokemon in the Database</h1>
+                                <p class='text-secondary mb-0'>Load one record by ID, then update the fields below.</p>
+                            </div>
+                            <div class='d-flex gap-2 flex-wrap justify-content-end ms-md-auto'>
+                                <button type='button' class='btn btn-outline-secondary' id='goToHome'>Return to Database Page</button>
+                                <button type='button' class='btn btn-outline-secondary' id='goToInsertPage'>Go to Insert Page</button>
+                            </div>
+                        </div>
+
+                        <div class='row g-3 align-items-end mb-4'>
+                            <div class='col-12 col-md-4'>
+                                <label class='form-label' for='lookupId'>Load by National Pokedex Number</label>
+                                <input class='form-control' id='lookupId' type='number' min='1' step='1' placeholder='Enter ID to load' />
+                                <div id='error_lookupId' class='form-text text-danger'></div>
+                            
+                                <label class='form-label' for='lookupForm'>Form (optional)</label>
+                                <input class='form-control' id='lookupForm' type='text' placeholder='Enter form to load' />
+                            </div>
+                            <div class='col-12 col-md-8 d-flex justify-content-md-end'>
+                                <button type='button' class='btn btn-primary' id='loadPokemon'>Load Pokemon</button>
+                            </div>
+                        </div>
+
+                        <div id='editStatus' class='alert d-none' role='alert'></div>
+
+                        <form id='editForm' class='d-none'>
+                            <input type='hidden' id='currentForm' value='Base' />
+
+                            <div class='row g-3'>
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='id'>National Pokedex Number</label>
+                                    <input class='form-control' id='id' type='number' min='1' step='1' readonly />
+                                    <div id='error_id' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-8'>
+                                    <label class='form-label' for='name'>Pokemon Name</label>
+                                    <input class='form-control' id='name' type='text' placeholder='Enter Pokemon name' />
+                                    <div id='error_name' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='form'>Form</label>
+                                    <input class='form-control' id='form' type='text' placeholder='Enter Pokemon form (if applicable)' />
+                                    <div id='error_form' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='primaryType'>Primary Type</label>
+                                    <select class='form-select' id='primaryType'>
+                                        <option value=''></option>
+                                        <option value='Normal'>Normal</option>
+                                        <option value='Fire'>Fire</option>
+                                        <option value='Water'>Water</option>
+                                        <option value='Electric'>Electric</option>
+                                        <option value='Grass'>Grass</option>
+                                        <option value='Ice'>Ice</option>
+                                        <option value='Fighting'>Fighting</option>
+                                        <option value='Poison'>Poison</option>
+                                        <option value='Ground'>Ground</option>
+                                        <option value='Flying'>Flying</option>
+                                        <option value='Psychic'>Psychic</option>
+                                        <option value='Bug'>Bug</option>
+                                        <option value='Rock'>Rock</option>
+                                        <option value='Ghost'>Ghost</option>
+                                        <option value='Dragon'>Dragon</option>
+                                        <option value='Dark'>Dark</option>
+                                        <option value='Steel'>Steel</option>
+                                        <option value='Fairy'>Fairy</option>
+                                    </select>
+                                    <div id='error_primaryType' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='secondaryType'>Secondary Type</label>
+                                    <select class='form-select' id='secondaryType'>
+                                        <option value=''></option>
+                                        <option value='Normal'>Normal</option>
+                                        <option value='Fire'>Fire</option>
+                                        <option value='Water'>Water</option>
+                                        <option value='Electric'>Electric</option>
+                                        <option value='Grass'>Grass</option>
+                                        <option value='Ice'>Ice</option>
+                                        <option value='Fighting'>Fighting</option>
+                                        <option value='Poison'>Poison</option>
+                                        <option value='Ground'>Ground</option>
+                                        <option value='Flying'>Flying</option>
+                                        <option value='Psychic'>Psychic</option>
+                                        <option value='Bug'>Bug</option>
+                                        <option value='Rock'>Rock</option>
+                                        <option value='Ghost'>Ghost</option>
+                                        <option value='Dragon'>Dragon</option>
+                                        <option value='Dark'>Dark</option>
+                                        <option value='Steel'>Steel</option>
+                                        <option value='Fairy'>Fairy</option>
+                                    </select>
+                                    <div id='error_secondaryType' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='ability1'>Ability One</label>
+                                    <textarea class='form-control' id='ability1' rows='2' placeholder='Enter ability'></textarea>
+                                    <div id='error_ability1' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='ability2'>Ability Two</label>
+                                    <textarea class='form-control' id='ability2' rows='2' placeholder='Enter ability'></textarea>
+                                    <div id='error_ability2' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='ability3'>Hidden Ability</label>
+                                    <textarea class='form-control' id='ability3' rows='2' placeholder='Enter ability'></textarea>
+                                    <div id='error_ability3' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='hp'>Health</label>
+                                    <input class='form-control' id='hp' type='number' min='1' max='255' step='1' placeholder='Enter HP' />
+                                    <div id='error_hp' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='attack'>Attack</label>
+                                    <input class='form-control' id='attack' type='number' min='1' max='255' step='1' placeholder='Enter Attack' />
+                                    <div id='error_attack' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='defense'>Defense</label>
+                                    <input class='form-control' id='defense' type='number' min='1' max='255' step='1' placeholder='Enter Defense' />
+                                    <div id='error_defense' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='spatk'>Special Attack</label>
+                                    <input class='form-control' id='spatk' type='number' min='1' max='255' step='1' placeholder='Enter Special Attack' />
+                                    <div id='error_spatk' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='spdef'>Special Defense</label>
+                                    <input class='form-control' id='spdef' type='number' min='1' max='255' step='1' placeholder='Enter Special Defense' />
+                                    <div id='error_spdef' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 col-md-4'>
+                                    <label class='form-label' for='speed'>Speed</label>
+                                    <input class='form-control' id='speed' type='number' min='1' max='255' step='1' placeholder='Enter Speed' />
+                                    <div id='error_speed' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12'>
+                                    <div class='form-check'>
+                                        <input class='form-check-input' type='checkbox' id='fully_evolved' />
+                                        <label class='form-check-label' for='fully_evolved'>Fully Evolved</label>
+                                    </div>
+                                    <div id='error_fully_evolved' class='form-text text-danger'></div>
+                                </div>
+
+                                <div class='col-12 d-grid d-md-flex gap-2 justify-content-md-end pt-2'>
+                                    <button type='button' class='btn btn-success px-4' id='savePokemon'>Save Changes</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    const allowedTypes = [
+        'Normal', 'Fire', 'Water', 'Electric', 'Grass', 'Ice', 'Fighting', 'Poison',
+        'Ground', 'Flying', 'Psychic', 'Bug', 'Rock', 'Ghost', 'Dragon', 'Dark', 'Steel', 'Fairy'
+    ];
+
+    const formFieldIds = [
+        'id', 'name', 'form', 'primaryType', 'secondaryType', 'ability1', 'ability2', 'ability3',
+        'hp', 'attack', 'defense', 'spatk', 'spdef', 'speed', 'fully_evolved'
+    ];
+
+    function setBanner(type, message) {
+        const banner = document.getElementById('editStatus');
+        if (!message) {
+            banner.className = 'alert d-none';
+            banner.textContent = '';
+            return;
+        }
+
+        banner.className = `alert alert-${type}`;
+        banner.textContent = message;
+    }
+
+    function clearErrors() {
+        for (const fieldId of ['lookupId', ...formFieldIds]) {
+            const errorElement = document.getElementById(`error_${fieldId}`);
+            if (errorElement) {
+                errorElement.textContent = '';
+            }
+        }
+    }
+
+    function showErrors(errors) {
+        for (const [key, value] of Object.entries(errors)) {
+            const errorElement = document.getElementById(`error_${key}`);
+            if (errorElement) {
+                errorElement.textContent = value;
+            }
+        }
+    }
+
+    function validateStat(rawValue, key, label, errors) {
+        const parsedValue = Number.parseInt(rawValue, 10);
+        if (!Number.isInteger(parsedValue) || parsedValue < 1 || parsedValue > 255) {
+            errors[key] = `${label} must be a whole number between 1 and 255.`;
+        }
+        return parsedValue;
+    }
+
+    function validateFormData(formData) {
+        const errors = {};
+
+        if (!/^\d+$/.test(formData.id)) {
+            errors.id = 'National Pokedex Number must be a whole number greater than 0.';
+        } else {
+            const parsedId = Number.parseInt(formData.id, 10);
+            if (!Number.isInteger(parsedId) || parsedId < 1) {
+                errors.id = 'National Pokedex Number must be a whole number greater than 0.';
+            }
+        }
+
+        if (formData.name.length === 0) {
+            errors.name = 'Pokemon name is required.';
+        } else if (formData.name.length > 20) {
+            errors.name = 'Pokemon name must be 20 characters or fewer.';
+        }
+
+        if (formData.form.length > 20) {
+            errors.form = 'Form must be 20 characters or fewer.';
+        }
+
+        if (formData.primaryType.length === 0) {
+            errors.primaryType = 'Primary type is required.';
+        } else if (!allowedTypes.includes(formData.primaryType)) {
+            errors.primaryType = 'Primary type is invalid.';
+        }
+
+        if (formData.secondaryType.length > 0 && !allowedTypes.includes(formData.secondaryType)) {
+            errors.secondaryType = 'Secondary type is invalid.';
+        }
+
+        if (formData.secondaryType.length > 0 && formData.secondaryType === formData.primaryType) {
+            errors.secondaryType = 'Secondary type must be different from primary type.';
+        }
+
+        if (formData.ability1.length === 0) {
+            errors.ability1 = 'Ability one is required.';
+        } else if (formData.ability1.length > 20) {
+            errors.ability1 = 'Ability one must be 20 characters or fewer.';
+        }
+
+        if (formData.ability2.length > 20) {
+            errors.ability2 = 'Ability two must be 20 characters or fewer.';
+        }
+
+        if (formData.ability3.length > 20) {
+            errors.ability3 = 'Hidden ability must be 20 characters or fewer.';
+        }
+
+        validateStat(formData.hp, 'hp', 'HP', errors);
+        validateStat(formData.attack, 'attack', 'Attack', errors);
+        validateStat(formData.defense, 'defense', 'Defense', errors);
+        validateStat(formData.spatk, 'spatk', 'Special Attack', errors);
+        validateStat(formData.spdef, 'spdef', 'Special Defense', errors);
+        validateStat(formData.speed, 'speed', 'Speed', errors);
+
+        if (typeof formData.fully_evolved !== 'string' || !['true', 'false'].includes(formData.fully_evolved)) {
+            errors.fully_evolved = 'Fully evolved must be true or false.';
+        }
+
+        return errors;
+    }
+
+    function setSelectValue(selectId, value) {
+        document.getElementById(selectId).value = value || '';
+    }
+
+    function populateForm(pokemon) {
+        document.getElementById('id').value = pokemon.id ?? '';
+        document.getElementById('name').value = pokemon.species_name ?? '';
+        document.getElementById('form').value = pokemon.form ?? '';
+        setSelectValue('primaryType', pokemon.primary_type);
+        setSelectValue('secondaryType', pokemon.secondary_type);
+        document.getElementById('ability1').value = pokemon.ability_one ?? '';
+        document.getElementById('ability2').value = pokemon.ability_two ?? '';
+        document.getElementById('ability3').value = pokemon.ability_hidden ?? '';
+        document.getElementById('hp').value = pokemon.health ?? '';
+        document.getElementById('attack').value = pokemon.attack ?? '';
+        document.getElementById('defense').value = pokemon.defense ?? '';
+        document.getElementById('spatk').value = pokemon.sp_atk ?? '';
+        document.getElementById('spdef').value = pokemon.sp_def ?? '';
+        document.getElementById('speed').value = pokemon.speed ?? '';
+        document.getElementById('fully_evolved').checked = pokemon.fully_evolved === 1 || pokemon.fully_evolved === true;
+
+        document.getElementById('currentForm').value = pokemon.form || 'Base';
+        document.getElementById('editForm').classList.remove('d-none');
+    }
+
+    async function loadPokemon() {
+        clearErrors();
+        setBanner(null);
+
+        const lookupId = document.getElementById('lookupId').value.trim();
+        const lookupForm = document.getElementById('lookupForm').value.trim();
+
+        if (!/^\d+$/.test(lookupId)) {
+            document.getElementById('error_lookupId').textContent = 'Enter a valid National Pokedex Number.';
+            setBanner('danger', 'Please enter a valid ID before loading.');
+            return;
+        }
+
+        try {
+            const requestUrl = lookupForm.length > 0
+                ? `/pokemon/${encodeURIComponent(lookupId)}?form=${encodeURIComponent(lookupForm)}`
+                : `/pokemon/${encodeURIComponent(lookupId)}`;
+
+            const response = await fetch(requestUrl);
+            const json = await response.json();
+
+            if (!response.ok) {
+                if (json.errors) {
+                    showErrors(json.errors);
+                }
+                setBanner('danger', json.message || 'Unable to load Pokemon record.');
+                return;
+            }
+
+            populateForm(json.data);
+            setBanner('success', `Loaded Pokemon #${json.data.id}${json.data.form ? ` (${json.data.form})` : ''}.`);
+        } catch (error) {
+            console.error('Error:', error);
+            setBanner('danger', 'Network or server error. Please try again.');
+        }
+    }
+
+    document.getElementById('loadPokemon').addEventListener('click', loadPokemon);
+
+    document.getElementById('savePokemon').addEventListener('click', async function (event) {
+        event.preventDefault();
+        clearErrors();
+        setBanner(null);
+
+        const payload = {
+            id: document.getElementById('id').value.trim(),
+            name: document.getElementById('name').value.trim(),
+            form: document.getElementById('form').value.trim(),
+            primaryType: document.getElementById('primaryType').value,
+            secondaryType: document.getElementById('secondaryType').value,
+            ability1: document.getElementById('ability1').value.trim(),
+            ability2: document.getElementById('ability2').value.trim(),
+            ability3: document.getElementById('ability3').value.trim(),
+            hp: document.getElementById('hp').value.trim(),
+            attack: document.getElementById('attack').value.trim(),
+            defense: document.getElementById('defense').value.trim(),
+            spatk: document.getElementById('spatk').value.trim(),
+            spdef: document.getElementById('spdef').value.trim(),
+            speed: document.getElementById('speed').value.trim(),
+            fully_evolved: document.getElementById('fully_evolved').checked ? 'true' : 'false'
+        };
+
+        const validationErrors = validateFormData(payload);
+        if (Object.keys(validationErrors).length > 0) {
+            showErrors(validationErrors);
+            setBanner('danger', 'Please fix the errors and submit again.');
+            return;
+        }
+
+        const originalId = document.getElementById('id').value.trim();
+        const originalForm = document.getElementById('currentForm').value.trim() || 'Base';
+        const requestBody = new FormData();
+
+        for (const [key, value] of Object.entries(payload)) {
+            requestBody.append(key, value);
+        }
+
+        try {
+            const response = await fetch(`/pokemon/${encodeURIComponent(originalId)}?form=${encodeURIComponent(originalForm)}`, {
+                method: 'PUT',
+                body: requestBody
+            });
+
+            const json = await response.json();
+
+            if (response.ok) {
+                document.getElementById('currentForm').value = payload.form.length > 0 ? payload.form : 'Base';
+                setBanner('success', json.message || 'Pokemon updated successfully.');
+                return;
+            }
+
+            if (json.errors) {
+                showErrors(json.errors);
+            }
+
+            setBanner('danger', json.message || 'Unable to update Pokemon.');
+        } catch (error) {
+            console.error('Error:', error);
+            setBanner('danger', 'Network or server error. Please try again.');
+        }
+    });
+
+    document.getElementById('goToHome').addEventListener('click', function () {
+        window.location.href = '/';
+    });
+
+    document.getElementById('goToInsertPage').addEventListener('click', () => {
+        window.location.href = 'insert.html';
+    });
+
+    const pageParams = new URLSearchParams(window.location.search);
+    if (pageParams.has('id')) {
+        document.getElementById('lookupId').value = pageParams.get('id') || '';
+        document.getElementById('lookupForm').value = pageParams.get('form') || '';
+        loadPokemon();
+    }
+</script>
+
+</html>
