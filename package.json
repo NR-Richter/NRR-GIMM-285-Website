@@ -1,0 +1,25 @@
+{
+  "name": "nrr-gimm-285-website",
+  "version": "1.0.0",
+  "description": "My Website from GIMM 285",
+  "homepage": "https://github.com/NR-Richter/NRR-GIMM-285-Website#readme",
+  "bugs": {
+    "url": "https://github.com/NR-Richter/NRR-GIMM-285-Website/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NR-Richter/NRR-GIMM-285-Website.git"
+  },
+  "license": "ISC",
+  "author": "Nicholas R. Richter",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "multer": "^2.4.0",
+    "mysql": "^2.18.1"
+  }
+}
